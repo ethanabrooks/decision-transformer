@@ -4,7 +4,6 @@ import torch.nn as nn
 
 
 class TrajectoryModel(nn.Module):
-
     def __init__(self, state_dim, act_dim, max_length=None):
         super().__init__()
 
