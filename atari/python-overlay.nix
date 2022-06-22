@@ -17,21 +17,6 @@ let
       ];
       dontUseCmakeConfigure = true;
     };
-    opencv-python = python-prev.buildPythonPackage rec {
-      pname = "opencv-python";
-      version = "4.6.0.66";
-      src = python-prev.fetchPypi {
-        inherit pname version;
-        sha256 = "sha256-xb+uQa1AMeZrsQ7EoKL/0+UU0JJlJ4HosayY0bWfEVg=";
-      };
-      doCheck = false;
-      nativeBuildInputs = with prev; [ cmake opencv ];
-      buildInputs = with python-final; [ 
-        scikit-build
-        opencv4 
-      ];
-      #dontUseCmakeConfigure = true;
-    };
   };
 in
 {
