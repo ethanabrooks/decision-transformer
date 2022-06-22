@@ -19,39 +19,25 @@
         };
         python = pkgs.python310;
         pythonPackages = python.pkgs;
-
         pythonEnv = python.withPackages (ps: with ps; [
-          pytorch
+          atari-py
+          gym
           numpy
-          #pandas
-          #transformers
-          #tokenizers
+          opencv4
+          pillow
+          pytorch-bin
           tqdm
-          #altair
-          #atair-saver
-          #selenium
           # Dev dependencies
           black
           ipdb
           ipython
           isort
-          #pytest
         ]);
         buildInputs = with pkgs; [
           pythonEnv
-          # For PNG exports with Altair
-          geckodriver
         ] ++ pkgs.lib.optionals useCuda (with pkgs; [
           linuxPackages.nvidia_x11
         ]);
-        # Editable installs with pyproject are not supported yet.
-        # For now we manually add package to PYTHONPATH in shellHook.
-        # defaultPackage = pythonPackages.buildPythonPackage {
-        #   name = "llmrdm";
-        #   format = "pyproject";
-        #   src = ./.;
-        #   inherit buildInputs;
-        # };
       in
       {
         devShell = pkgs.mkShell {
