@@ -54,48 +54,48 @@ let
       '';
     });
     # Add altair-saver
-    altair-data-server = python-prev.buildPythonPackage rec {
-      pname = "altair_data_server";
-      version = "0.4.1";
-      src = python-prev.fetchPypi {
-        inherit pname version;
-        sha256 = "sha256-s5IFpIqyZ4Ag/FhznLlzhFh57Racta3d3J3L9aaa6ys=";
-      };
-      propagatedBuildInputs = with python-final; [
-        altair
-        portpicker
-        tornado
-      ];
-      doCheck = false;
-    };
-    altair-viewer = python-prev.buildPythonPackage rec {
-      pname = "altair_viewer";
-      version = "0.4.0";
-      src = python-prev.fetchPypi {
-        inherit pname version;
-        sha256 = "sha256-9dM993XLkJRUTxXptXiCJEiPUGz1RscImA0tRML5NTQ=";
-      };
-      propagatedBuildInputs = with python-final; [
-        altair-data-server
-        ipython
-      ];
-      doCheck = false;
-    };
-    altair-saver = python-prev.buildPythonPackage rec {
-      pname = "altair_saver";
-      version = "0.5.0";
-      src = python-prev.fetchPypi {
-        inherit pname version;
-        sha256 = "sha256-wJi89oaOO6EdsQiQTcO4UVtUUFuJvKX2lScRVIe4h5U=";
-      };
-      propagatedBuildInputs = with python-final; [
-        altair
-        altair-data-server
-        altair-viewer
-        selenium
-      ];
-      doCheck = false;
-    };
+    #altair-data-server = python-prev.buildPythonPackage rec {
+      #pname = "altair_data_server";
+      #version = "0.4.1";
+      #src = python-prev.fetchPypi {
+        #inherit pname version;
+        #sha256 = "sha256-s5IFpIqyZ4Ag/FhznLlzhFh57Racta3d3J3L9aaa6ys=";
+      #};
+      #propagatedBuildInputs = with python-final; [
+        #altair
+        #portpicker
+        #tornado
+      #];
+      #doCheck = false;
+    #};
+    #altair-viewer = python-prev.buildPythonPackage rec {
+      #pname = "altair_viewer";
+      #version = "0.4.0";
+      #src = python-prev.fetchPypi {
+        #inherit pname version;
+        #sha256 = "sha256-9dM993XLkJRUTxXptXiCJEiPUGz1RscImA0tRML5NTQ=";
+      #};
+      #propagatedBuildInputs = with python-final; [
+        #altair-data-server
+        #ipython
+      #];
+      #doCheck = false;
+    #};
+    #altair-saver = python-prev.buildPythonPackage rec {
+      #pname = "altair_saver";
+      #version = "0.5.0";
+      #src = python-prev.fetchPypi {
+        #inherit pname version;
+        #sha256 = "sha256-wJi89oaOO6EdsQiQTcO4UVtUUFuJvKX2lScRVIe4h5U=";
+      #};
+      #propagatedBuildInputs = with python-final; [
+        #altair
+        #altair-data-server
+        #altair-viewer
+        #selenium
+      #];
+      #doCheck = false;
+    #};
   };
 in
 {

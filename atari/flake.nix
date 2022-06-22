@@ -23,19 +23,19 @@
         pythonEnv = python.withPackages (ps: with ps; [
           pytorch
           numpy
-          pandas
-          transformers
-          tokenizers
+          #pandas
+          #transformers
+          #tokenizers
           tqdm
-          altair
-          altair-saver
-          selenium
+          #altair
+          #atair-saver
+          #selenium
           # Dev dependencies
           black
           ipdb
           ipython
           isort
-          pytest
+          #pytest
         ]);
         buildInputs = with pkgs; [
           pythonEnv
