@@ -17,10 +17,12 @@
             (import ./python-overlay.nix)
           ];
         };
-        python = pkgs.python310;
+        python = pkgs.python39;
         pythonPackages = python.pkgs;
         pythonEnv = python.withPackages (ps: with ps; [
           atari-py
+          blosc
+          dopamine-rl
           gym
           numpy
           opencv4
