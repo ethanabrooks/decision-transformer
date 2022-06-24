@@ -33,6 +33,7 @@
           dopamine-rl
           pytorch
           transformers
+          blosc
           # Dev dependencies
           black
           ipdb
