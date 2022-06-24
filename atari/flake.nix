@@ -1,11 +1,14 @@
 {
-  description = "A template for python development with Nix Flakes.";
+  description = "An exploration of GRIFFIN with decision tranformers";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    utils.url = "github:numtide/flake-utils";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, utils }:
+  outputs = { self, nixpkgs, flake-utils }:
     let out = system:
       let
         useCuda = system == "x86_64-linux";
@@ -19,22 +22,26 @@
         };
         python = pkgs.python39;
         pythonPackages = python.pkgs;
+
         pythonEnv = python.withPackages (ps: with ps; [
-          atari-py
-          blosc
-          dopamine-rl
-          gym
+          jax
+          jaxlib
           numpy
-          opencv4
-          pillow
-          pytorch-bin
-          tqdm
+          tensorflow
+          flax
+          atari-py
+          dopamine-rl
+          pytorch
+          transformers
+          blosc
           # Dev dependencies
           black
           ipdb
           ipython
           isort
+          pytest
         ]);
+
         buildInputs = with pkgs; [
           pythonEnv
         ] ++ pkgs.lib.optionals useCuda (with pkgs; [
@@ -57,5 +64,5 @@
             export EXTRA_CCFLAGS="-I/usr/include"
           '';
         };
-      }; in with utils.lib; eachSystem defaultSystems out;
+      }; in with flake-utils.lib; eachSystem defaultSystems out;
 }
