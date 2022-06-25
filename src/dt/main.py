@@ -1,5 +1,6 @@
-from decision_transformer_atari import GPTConfig, GPT
 import torch
+
+from .decision_transformer_atari import GPT, GPTConfig
 
 vocab_size = 4
 block_size = 90
@@ -18,6 +19,5 @@ mconf = GPTConfig(
 model = GPT(mconf)
 
 checkpoint_path = "checkpoints/Breakout_123.pth"  # or Pong, Qbert, Seaquest
-checkpoint = torch.load(checkpoint_path, torch.device('cpu'))
+checkpoint = torch.load(checkpoint_path, torch.device("cpu"))
 model.load_state_dict(checkpoint)
-#! /usr/bin/env python

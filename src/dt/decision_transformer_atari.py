@@ -17,8 +17,8 @@ GPT model:
 - the final decoder is a linear projection into a vanilla Softmax classifier
 """
 
-import math
 import logging
+import math
 
 import torch
 import torch.nn as nn
@@ -35,7 +35,7 @@ class GELU(nn.Module):
 
 
 class GPTConfig:
-    """ base GPT config, params common to all GPT versions """
+    """base GPT config, params common to all GPT versions"""
 
     embd_pdrop = 0.1
     resid_pdrop = 0.1
@@ -49,7 +49,7 @@ class GPTConfig:
 
 
 class GPT1Config(GPTConfig):
-    """ GPT-1 like network roughly 125M params """
+    """GPT-1 like network roughly 125M params"""
 
     n_layer = 12
     n_head = 12
@@ -116,7 +116,7 @@ class CausalSelfAttention(nn.Module):
 
 
 class Block(nn.Module):
-    """ an unassuming Transformer block """
+    """an unassuming Transformer block"""
 
     def __init__(self, config):
         super().__init__()
@@ -137,7 +137,7 @@ class Block(nn.Module):
 
 
 class GPT(nn.Module):
-    """  the full GPT language model, with a context size of block_size """
+    """the full GPT language model, with a context size of block_size"""
 
     def __init__(self, config):
         super().__init__()
@@ -240,9 +240,10 @@ class GPT(nn.Module):
         assert (
             len(inter_params) == 0
         ), "parameters %s made it into both decay/no_decay sets!" % (str(inter_params),)
-        assert len(param_dict.keys() - union_params) == 0, (
-            "parameters %s were not separated into either decay/no_decay set!"
-            % (str(param_dict.keys() - union_params),)
+        assert (
+            len(param_dict.keys() - union_params) == 0
+        ), "parameters %s were not separated into either decay/no_decay set!" % (
+            str(param_dict.keys() - union_params),
         )
 
         # create the pytorch optimizer object
@@ -393,4 +394,3 @@ if __name__ == "__main__":
     checkpoint_path = "checkpoints/Breakout_123.pth"  # or Pong, Qbert, Seaquest
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint)
-
