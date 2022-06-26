@@ -1,6 +1,6 @@
 import torch
 
-from .decision_transformer_atari import GPT, GPTConfig
+from dt.decision_transformer_atari import GPT, GPTConfig
 
 vocab_size = 4
 block_size = 90
