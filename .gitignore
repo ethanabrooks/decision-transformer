@@ -2,3 +2,4 @@
 checkpoints/*
 **/*.pyc
 .idea/
+.venv
