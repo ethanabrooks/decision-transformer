@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import atari_py
+import numpy as np
 import torch
 from dollar_lambda import command
 
@@ -31,6 +32,7 @@ def main(
         max_timestep=timesteps,
     )
     model = GPT(conf)
+    print("Loading checkpoint...")
     checkpoint_path = f"checkpoints/{game}_123.pth"  # or Pong, Qbert, Seaquest
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint)
@@ -43,7 +45,11 @@ def main(
             max_timestep=timesteps,
         ),
     )
-    rets = trainer.get_returns(1.0)
+    ret = 1
+    while ret < 2000:
+        rets = list(trainer.get_returns(ret))
+        print(f"ret: {ret}, mean: {np.mean(rets)}, std: {np.std(rets)}")
+        ret *= 2
     breakpoint()
 
 

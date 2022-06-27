@@ -11,6 +11,8 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
+from tqdm import tqdm
+
 from dt.decision_transformer_atari import GPT
 
 """
@@ -89,9 +91,8 @@ class Trainer:
         env = Env(args)
         env.eval()
 
-        T_rewards, T_Qs = [], []
         done = True
-        for i in range(10):
+        for _ in tqdm(range(10)):
             state = env.reset()
             # noinspection PyTypeChecker
             state = state.type(torch.float32)
@@ -126,7 +127,7 @@ class Trainer:
                 j += 1
 
                 if done:
-                    T_rewards.append(reward_sum)
+                    yield reward_sum
                     break
 
                 state = state.unsqueeze(0).unsqueeze(0).to(self.device)
@@ -156,10 +157,7 @@ class Trainer:
                     ),
                 )
         env.close()
-        eval_return = sum(T_rewards) / 10.0
-        print("target return: %d, eval return: %d" % (ret, eval_return))
         self.model.train(True)
-        return eval_return
 
 
 class Env:
