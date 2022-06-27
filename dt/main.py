@@ -1,13 +1,18 @@
+from pathlib import Path
+
+import atari_py
 import torch
 from dollar_lambda import command
 
 from dt.decision_transformer_atari import GPT, GPTConfig
-import gym
+
+from dt.trainer import Trainer, TrainerConfig
 
 
 @command()
 def main(
-    env: str,
+    game: str = "Breakout",
+    seed: int = 0,
     block_size: int = 90,
     model_type: str = "reward_conditioned",
     n_layer: int = 6,
@@ -26,14 +31,19 @@ def main(
         max_timestep=timesteps,
     )
     model = GPT(conf)
-    if torch.cuda.is_available():
-        model.cuda()
-
-    env_root, *_ = env.split("-")
-    checkpoint_path = f"checkpoints/{env_root}_123.pth"  # or Pong, Qbert, Seaquest
+    checkpoint_path = f"checkpoints/{game}_123.pth"  # or Pong, Qbert, Seaquest
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint)
-    env = gym.make(env)
+
+    trainer = Trainer(
+        model,
+        TrainerConfig(
+            game=game,
+            seed=seed,
+            max_timestep=timesteps,
+        ),
+    )
+    rets = trainer.get_returns(1.0)
     breakpoint()
 
 
