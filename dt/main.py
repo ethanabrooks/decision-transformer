@@ -1,8 +1,6 @@
-from pathlib import Path
-
-import atari_py
 import numpy as np
 import torch
+import pandas as pd
 from dollar_lambda import command
 
 from dt.decision_transformer_atari import GPT, GPTConfig
@@ -45,12 +43,21 @@ def main(
             max_timestep=timesteps,
         ),
     )
-    ret = 1
-    while ret < 2000:
-        rets = list(trainer.get_returns(ret))
-        print(f"ret: {ret}, mean: {np.mean(rets)}, std: {np.std(rets)}")
-        ret *= 2
-    breakpoint()
+
+    def get_rets():
+        ret = 1
+        while ret < 1e5:
+            rets = list(trainer.get_returns(ret))
+            yield ret, rets
+            print(f"ret: {ret}, mean: {np.mean(rets)}, std: {np.std(rets)}")
+            ret *= 2
+
+    means = [
+        dict(ret=ret, mean=np.mean(rets), std=np.std(rets)) for ret, rets in get_rets()
+    ]
+
+    df = pd.DataFrame.from_records(means)
+    df.to_csv("rets.csv", index=False)
 
 
 if __name__ == "__main__":

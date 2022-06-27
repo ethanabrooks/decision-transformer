@@ -19,6 +19,7 @@ AutoROM = "^0.4.2"
 atari-py = "^0.3.0"
 opencv-python = "^4.6.0"
 Pillow = "^9.1.1"
+pandas = "^1.4.3"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
