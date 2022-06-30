@@ -1,40 +1,28 @@
 
-# Decision Transformer
+# Atari
 
-Lili Chen\*, Kevin Lu\*, Aravind Rajeswaran, Kimin Lee, Aditya Grover, Michael Laskin, Pieter Abbeel, Aravind Srinivas†, and Igor Mordatch†
+We build our Atari implementation on top of [minGPT](https://github.com/karpathy/minGPT) and benchmark our results on the [DQN-replay](https://github.com/google-research/batch_rl) dataset. 
 
-\*equal contribution, †equal advising
+## Installation
 
-A link to our paper can be found on [arXiv](https://arxiv.org/abs/2106.01345).
-
-## Overview
-
-Official codebase for [Decision Transformer: Reinforcement Learning via Sequence Modeling](https://sites.google.com/berkeley.edu/decision-transformer).
-Contains scripts to reproduce experiments.
-
-![image info](./architecture.png)
-
-## Instructions
-
-We provide code in two sub-directories: `atari` containing code for Atari experiments and `gym` containing code for OpenAI Gym experiments.
-See corresponding READMEs in each folder for instructions; scripts should be run from the respective directories.
-It may be necessary to add the respective directories to your PYTHONPATH.
-
-## Citation
-
-Please cite our paper as:
+Dependencies can be installed with the following command:
 
 ```
-@article{chen2021decisiontransformer,
-  title={Decision Transformer: Reinforcement Learning via Sequence Modeling},
-  author={Lili Chen and Kevin Lu and Aravind Rajeswaran and Kimin Lee and Aditya Grover and Michael Laskin and Pieter Abbeel and Aravind Srinivas and Igor Mordatch},
-  journal={arXiv preprint arXiv:2106.01345},
-  year={2021}
-}
+conda env create -f conda_env.yml
 ```
 
-Note: this is not an official Google or Facebook product.
+## Downloading datasets
 
-## License
+Create a directory for the dataset and load the dataset using [gsutil](https://cloud.google.com/storage/docs/gsutil_install#install). Replace `[DIRECTORY_NAME]` and `[GAME_NAME]` accordingly (e.g., `./dqn_replay` for `[DIRECTORY_NAME]` and `Breakout` for `[GAME_NAME]`)
+```
+mkdir [DIRECTORY_NAME]
+gsutil -m cp -R gs://atari-replay-datasets/dqn/[GAME_NAME] [DIRECTORY_NAME]
+```
 
-MIT
+## Example usage
+
+Scripts to reproduce our Decision Transformer results can be found in `run.sh`.
+
+```
+python run_dt_atari.py --seed 123 --block_size 90 --epochs 5 --model_type 'reward_conditioned' --num_steps 500000 --num_buffers 50 --game 'Breakout' --batch_size 128 --data_dir_prefix [DIRECTORY_NAME]
+```
